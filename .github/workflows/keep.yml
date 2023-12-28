@@ -1,0 +1,22 @@
+name: keep
+
+on:
+  schedule:
+    # every 16:01 UTC
+    - cron: "01 16 * * *"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 60
+    steps:
+      - name: pull
+        uses: actions/checkout@v4
+      - name: run
+        run: |
+          git checkout -b upkeep HEAD
+          git push -f origin upkeep
+          git push origin --delete upkeep
